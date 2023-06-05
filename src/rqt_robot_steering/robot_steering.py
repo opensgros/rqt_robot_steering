@@ -199,7 +199,7 @@ class RobotSteering(Plugin):
 
     def _on_z_angular_slider_changed(self):
         self._widget.current_z_angular_label.setText(
-            '%0.2f rad/s' % (self._widget.z_angular_slider.value() / RobotSteering.slider_factor))
+            '%0.2f m/s' % (self._widget.z_angular_slider.value() / RobotSteering.slider_factor))
         self._on_parameter_changed()
 
     def _on_increase_x_linear_pressed(self):
@@ -261,19 +261,19 @@ class RobotSteering(Plugin):
             self._widget.x_linear_slider.value() / RobotSteering.slider_factor,
             self._widget.z_angular_slider.value() / RobotSteering.slider_factor)
 
-    def _send_twist(self, x_linear, z_angular):
+    def _send_twist(self, x_linear, y_angular):
         if self._publisher is None:
             return
         twist = Twist()
         twist.linear.x = x_linear
-        twist.linear.y = 0.0
+        twist.linear.y = y_angular
         twist.linear.z = 0.0
         twist.angular.x = 0.0
         twist.angular.y = 0.0
-        twist.angular.z = z_angular
+        twist.angular.z = 0.0
 
         # Only send the zero command once so other devices can take control
-        if x_linear == 0.0 and z_angular == 0.0:
+        if x_linear == 0.0 and y_angular == 0.0:
             if not self.zero_cmd_sent:
                 self.zero_cmd_sent = True
                 self._publisher.publish(twist)

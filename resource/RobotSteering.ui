@@ -386,7 +386,7 @@
         <string>Current angular velocity</string>
        </property>
        <property name="text">
-        <string>0.0 rad/s</string>
+        <string>0.0 m/s</string>
        </property>
       </widget>
      </item>
